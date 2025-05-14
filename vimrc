@@ -90,6 +90,11 @@ set textwidth=0
 " Only show the colorcolumn in the current window.
 " autocmd WinLeave * set colorcolumn=0
 " autocmd WinEnter * set colorcolumn=80
+"
+" python
+autocmd FileType python set autoindent
+autocmd FileType python set smartindent
+filetype plugin indent on
 
 set tabstop=4
 set softtabstop=-1
@@ -129,10 +134,16 @@ else
     map <Leader>cv :vs<CR>:edit ~/.vim/vimrc<cr>
 endif
 
+map <Leader>er :w ~/.vim/snippets/
+map <Leader>re :cd ~/.vim/snippets<CR>:read 
+
+noremap - $
+
 map gg gg0
 map G G$
 vnoremap gg gg0
 vnoremap G G$
+
 nmap ]] /[{}]<CR>:nohlsearch<CR>
 nmap [[ ?[{}]<CR>:nohlsearch<CR>
 
@@ -372,3 +383,10 @@ endif
 " To format a json file run the command :%!python -m json.tool"
 " To change every ocurrence and ask for confirmation, use :%s/{oldpattern}/{newpattern}/gc"
 
+" TODO:
+" registrar todo o clipboard de uma sessão. Isso vai ajud
+" ar a diminuir a copia de trechos já usados.
+"
+" medidor de colunas fica verelho quando cursor é maior que 78
+
+" pop up com resposta de ai, com opção de com ou sem contexto do projeto
