@@ -31,20 +31,64 @@ let g:netrw_keepdir = 0
 
                        """"""""CONFIG STATUSLINE""""""""
 
-"autocmd VimEnter * is used here to load the config after everything else
+
+" Set the statusline highlight group to StatusLine on Vim startup
 autocmd VimEnter * set statusline=%#StatusLine#
+
+" Add the full file path to the statusline
 autocmd VimEnter * set statusline+=%F
+
+" Change highlight group to DiffAdd (for the next item)
 autocmd VimEnter * set statusline+=\ %#DiffAdd#
+
+" Show a '+' if the file is modified
 autocmd VimEnter * set statusline+=%m
+
+" Switch back to the StatusLine highlight group
 autocmd VimEnter * set statusline+=%#StatusLine#
+
+" Truncate the statusline here if it gets too long
 autocmd VimEnter * set statusline+=%<
+
+" Get the current session file name (without path)
 autocmd VimEnter * let session_name=fnamemodify(v:this_session, ':t')
+
+" Add the session name in parentheses, e.g., (session.vim)
 autocmd VimEnter * set statusline+=\ %{'s('}\%{session_name}\%{')'}
+
+" Split the statusline (left and right alignment)
 autocmd VimEnter * set statusline+=%=
-autocmd VimEnter * set statusline+=%n
+
+" Show the current buffer number
+autocmd VimEnter * set statusline+=%{'buf:('}\%n\%{')'}
+
+" Show the percentage through the file
 autocmd VimEnter * set statusline+=\ %p%%
-autocmd VimEnter * set statusline+=\ %l\:%c
-autocmd VimEnter * set statusline+=\ 
+
+" its better when code is less than 80 columns wide
+function AlertColumn()
+    if col('.')>=70&&col('.')<=78
+        return '%#WildMenu#'
+    elseif col('.')>78
+        return '%#DiffDelete#'
+    else
+        return '%#StatusLine#'
+endfunc
+
+"lines counter
+autocmd Vimenter * set statusline+=\ %l\:
+
+"alert column
+autocmd VimEnter * set statusline+=%{%AlertColumn()%}
+
+"column counter
+autocmd Vimenter * set statusline+=\%c
+
+"dont know what this does
+autocmd Vimenter * set statusline+=%*
+
+" Add a trailing space for aesthetics
+" autocmd VimEnter * set statusline+=\
 
 
             """"""""VARIOUS OPTIONS FOR THE TEXT EDITOR""""""""
@@ -123,6 +167,10 @@ endif
 
         """"""""MOSTLY MAPPINGS FOR THE NORMAL MODE TEXT EDITOR""""""""
 
+noremap <Leader>bb :b!#<CR>
+
+" delete current file
+command! Fdel call delete(expand('%'))
 map <Leader>cs :nohlsearch<CR>
 
 "last command is for clearing the annoying search highligth
@@ -318,6 +366,7 @@ vnoremap <Leader>/ <esc>a*/<esc>`<i/*
 
 
             """"""""COMMENT SNIPPETS STUFF FOR C PROGRAMMING"""""""
+" this should became a snippet instead
 
 " function! CommentFunction()
 "     let current_line = line(".")
@@ -370,6 +419,24 @@ map <Leader>cf :call CommentFunction()<CR>2jA
 map <Leader>cc :call CommentVariable()<CR>
 
 
+                   """"""""""PYTHON LLM INTERFACE""""""""""
+
+let g:python_return = ''
+function Gemini(prompt, context=0)
+
+    if a:context == 0
+        let g:python_gemini_context = a:context
+    else
+        let g:python_gemini_context = expand('%:p:h')
+    endif
+
+    let g:python_gemini_prompt = a:prompt
+
+    py3f ~/.vim/scripts/test.py
+ "   call popup_create(python_return, {})
+endfunc
+
+
 colorscheme myhabamax
 
 " run this file after all to avoid bugs
@@ -384,8 +451,8 @@ endif
 " To change every ocurrence and ask for confirmation, use :%s/{oldpattern}/{newpattern}/gc"
 
 " TODO:
-" registrar todo o clipboard de uma sessão. Isso vai ajud
-" ar a diminuir a copia de trechos já usados.
+" registrar todo o clipboard de uma sessão. Isso vai ajud " ar a diminuir a 
+" copia de trechos já usados.
 "
 " medidor de colunas fica verelho quando cursor é maior que 78
 

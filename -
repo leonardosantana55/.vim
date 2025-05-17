@@ -1,0 +1,99 @@
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.014  000.014: --- VIM STARTING ---
+000.189  000.175: locale set
+000.198  000.009: clipboard setup
+000.209  000.011: window checked
+000.919  000.710: inits 1
+000.966  000.047: parsing arguments
+000.967  000.001: expanding arguments
+001.036  000.069: shell init
+001.920  000.884: xsmp init
+002.909  000.989: Termcap init
+002.950  000.041: inits 2
+003.185  000.235: init highlight
+003.320  000.135: sourcing vimrc file(s)
+004.634  000.077  000.077: sourcing /usr/local/share/vim/vim91/plugin/getscriptPlugin.vim
+004.709  000.023  000.023: sourcing /usr/local/share/vim/vim91/plugin/gzip.vim
+004.785  000.035  000.035: sourcing /usr/local/share/vim/vim91/plugin/logiPat.vim
+004.900  000.076  000.076: sourcing /usr/local/share/vim/vim91/plugin/manpager.vim
+004.968  000.028  000.028: sourcing /usr/local/share/vim/vim91/plugin/matchparen.vim
+005.023  000.014  000.014: sourcing /usr/local/share/vim/vim91/plugin/netrwPlugin.vim
+005.111  000.044  000.044: sourcing /usr/local/share/vim/vim91/plugin/openPlugin.vim
+005.313  000.128  000.128: sourcing /usr/local/share/vim/vim91/plugin/rrhelper.vim
+005.427  000.063  000.063: sourcing /usr/local/share/vim/vim91/plugin/spellfile.vim
+005.495  000.021  000.021: sourcing /usr/local/share/vim/vim91/plugin/tarPlugin.vim
+005.727  000.192  000.192: sourcing /usr/local/share/vim/vim91/plugin/tohtml.vim
+005.778  000.013  000.013: sourcing /usr/local/share/vim/vim91/plugin/tutor.vim
+005.839  000.021  000.021: sourcing /usr/local/share/vim/vim91/plugin/vimballPlugin.vim
+005.903  000.025  000.025: sourcing /usr/local/share/vim/vim91/plugin/zipPlugin.vim
+005.913  001.833: loading plugins
+006.081  000.168: loading packages
+006.119  000.038: loading after plugins
+006.141  000.022: inits 3
+009.644  003.503: setup clipboard
+19022.574  19012.930: reading stdin
+19022.591  000.017: setting raw mode
+26582.289  7559.698: waiting for return
+26582.294  000.005: start termcap
+26582.321  000.027: clearing screen
+26582.336  000.015: opening buffers
+26582.338  000.002: BufEnter autocommands
+26582.339  000.001: editing files in windows
+26582.363  000.024: VimEnter autocommands
+26582.366  000.003: before starting main loop
+26583.343  000.977: first screen update
+26583.346  000.003: --- VIM STARTED ---
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.014  000.014: --- VIM STARTING ---
+000.239  000.225: locale set
+000.248  000.009: clipboard setup
+000.259  000.011: window checked
+001.108  000.849: inits 1
+001.150  000.042: parsing arguments
+001.151  000.001: expanding arguments
+001.220  000.069: shell init
+002.490  001.270: xsmp init
+003.593  001.103: Termcap init
+003.633  000.040: inits 2
+003.887  000.254: init highlight
+004.007  000.120: sourcing vimrc file(s)
+005.417  000.115  000.115: sourcing /usr/local/share/vim/vim91/plugin/getscriptPlugin.vim
+005.510  000.040  000.040: sourcing /usr/local/share/vim/vim91/plugin/gzip.vim
+005.639  000.084  000.084: sourcing /usr/local/share/vim/vim91/plugin/logiPat.vim
+005.810  000.128  000.128: sourcing /usr/local/share/vim/vim91/plugin/manpager.vim
+005.918  000.051  000.051: sourcing /usr/local/share/vim/vim91/plugin/matchparen.vim
+005.989  000.023  000.023: sourcing /usr/local/share/vim/vim91/plugin/netrwPlugin.vim
+006.088  000.032  000.032: sourcing /usr/local/share/vim/vim91/plugin/openPlugin.vim
+006.206  000.066  000.066: sourcing /usr/local/share/vim/vim91/plugin/rrhelper.vim
+006.267  000.021  000.021: sourcing /usr/local/share/vim/vim91/plugin/spellfile.vim
+006.328  000.021  000.021: sourcing /usr/local/share/vim/vim91/plugin/tarPlugin.vim
+006.561  000.194  000.194: sourcing /usr/local/share/vim/vim91/plugin/tohtml.vim
+006.612  000.014  000.014: sourcing /usr/local/share/vim/vim91/plugin/tutor.vim
+006.673  000.022  000.022: sourcing /usr/local/share/vim/vim91/plugin/vimballPlugin.vim
+006.737  000.025  000.025: sourcing /usr/local/share/vim/vim91/plugin/zipPlugin.vim
+006.747  001.904: loading plugins
+006.911  000.164: loading packages
+006.949  000.038: loading after plugins
+006.974  000.025: inits 3
+009.777  002.803: setup clipboard
+009.797  000.020: setting raw mode
+3410.918  3401.121: waiting for return
+3410.923  000.005: start termcap
+3410.948  000.025: clearing screen
+3411.247  000.299: opening buffers
+3411.251  000.004: BufEnter autocommands
+3411.256  000.005: editing files in windows
+3411.277  000.021: VimEnter autocommands
+3411.279  000.002: before starting main loop
+3412.286  001.007: first screen update
+3412.289  000.003: --- VIM STARTED ---
