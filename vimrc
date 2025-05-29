@@ -167,6 +167,8 @@ endif
 
         """"""""MOSTLY MAPPINGS FOR THE NORMAL MODE TEXT EDITOR""""""""
 
+noremap <Leader>ww :w<CR>
+
 noremap <Leader>bb :b!#<CR>
 
 " delete current file
@@ -421,21 +423,35 @@ map <Leader>cc :call CommentVariable()<CR>
 
                    """"""""""PYTHON LLM INTERFACE""""""""""
 
-let g:python_return = ''
-function Gemini(prompt, context=0)
+" function Gemini(prompt, context=0)
+" 
+"     if a:context == 0
+"         let g:python_gemini_context = a:context
+"     else
+"         let g:python_gemini_context = expand('%:p:h')
+"     endif
+" 
+"     let g:python_gemini_prompt = a:prompt
+" 
+"     py3f ~/.vim/scripts/test.py
+"  "   call popup_create(python_return, {})
+" endfunc
 
-    if a:context == 0
-        let g:python_gemini_context = a:context
-    else
-        let g:python_gemini_context = expand('%:p:h')
-    endif
 
-    let g:python_gemini_prompt = a:prompt
+" function LlmTip() to be continued..."
 
+function LlmTip(prompt='null')
+
+    let prompt = a:prompt
+    let python_call_returns = ''
+
+    " context is the whole content from current buffer
+    let context=join(getline(1, '$'), "\n")
+    
     py3f ~/.vim/scripts/test.py
- "   call popup_create(python_return, {})
+    echo python_call_returns
+" TODO: put it on a popup window and prevent it from giving the same tip twice
 endfunc
-
 
 colorscheme myhabamax
 
@@ -454,6 +470,4 @@ endif
 " registrar todo o clipboard de uma sessão. Isso vai ajud " ar a diminuir a 
 " copia de trechos já usados.
 "
-" medidor de colunas fica verelho quando cursor é maior que 78
-
 " pop up com resposta de ai, com opção de com ou sem contexto do projeto

@@ -2,29 +2,7 @@ import vim
 from google import genai
 from google.genai.types import Tool, GenerateContentConfig, GoogleSearch
 import os
-
-
-def concatenateTextFiles(
-        path, \
-        file_types = ('.c', '.h', '.cpp', '.py', 'Makefile', '.sh', '.lua', '.js')):
-
-    final_text = ''
-    count = 0
-    file_names = []
-
-    try:
-        file_names = os.listdir(path)
-    except e:
-        print(f"path error: {file_names}")
-
-    for file in file_names:
-        if file.endswith(file_types):
-            with open(file, 'r', encoding="utf-8") as f:
-                text = f.read()
-        final_text = final_text + f"File name: {file}\n\n{text}\n\n\n\n"
-
-    return final_text
-
+import re
 
 def Gemini(prompt, context):
     #pricing
@@ -33,8 +11,9 @@ def Gemini(prompt, context):
     #gemini-2.0-flash free tier limit:
     #RPM = 15, TPM = 1,000,000, RPD = 1,500
 
+
     answer = ''
-    context_text = ''
+    context_text = ''                   #acho que tem que tirar isso
     contents = []
 
     api_key = os.environ['GEMINI_API_KEY']
@@ -45,14 +24,18 @@ def Gemini(prompt, context):
         google_search = GoogleSearch()
     )
 
+
+    if prompt == 'null':
+        prompt = "Give me one single tip to improve this thing."
+
     if context != '0':
-        contents = [concatenateTextFiles(context), \
-                "Based on the provided code, answer the following question: ", \
+        contents = [context, \
+                "Based on the provided code, answer the following: ", \
                     prompt]
     else:
         contents = [prompt]
 
-
+    #make the call
     response = client.models.generate_content(
         model=model_id,
         contents=contents,
@@ -67,28 +50,28 @@ def Gemini(prompt, context):
 
     for each in response.candidates[0].content.parts:
         answer = answer + each.text + "\n"
-
-    answer = answer + ("\n\n")
-
-    try:
-        for each in response.candidates[0].grounding_metadata.grounding_chunks:
-            answer = answer + each.web.title
-            answer = answer + each.web.uri
-    except:
-        pass
+#
+#    answer = answer + ("\n\n")
+#
+#    try:
+#        for each in response.candidates[0].grounding_metadata.grounding_chunks:
+#            answer = answer + each.web.title
+#            answer = answer + each.web.uri
+#    except:
+#        pass
 
     return answer
 
 def main():
 
-    prompt = vim.eval("g:python_gemini_prompt")
-    context = vim.eval("g:python_gemini_context")
-
-#    answer = Gemini(prompt, context)
-    answer = "porra"
-    command_string = f"let python_return={answer}"
-
-    vim.command("let python_return='pnc'")
+    context = vim.eval('context')
+    prompt = vim.eval('prompt')
+#
+    answer = Gemini(prompt, context)
+    answer = re.sub(r'[^a-zA-Z0-9\s]', '', answer)
+    vim.command(f"let python_call_returns = '{answer}'")
+#    test = "whaterver]"
+#    vim.command(f"let python_call_returns = '{test}'")
 
 if __name__ == "__main__":
     main()
