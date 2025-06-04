@@ -145,8 +145,12 @@ autocmd FileType python set autoindent
 autocmd FileType python set smartindent
 
 "lisp
-autocmd FileType lisp set tabstop=2
-autocmd FileType lisp set shiftwidth=2
+autocmd BufEnter *.lisp :setlocal tabstop=2
+autocmd BufEnter *.lisp :setlocal shiftwidth=2
+
+autocmd BufLeave *.lisp  :setlocal tabstop=4
+autocmd BufLeave *.lisp  :setlocal tabstop=4
+
 
 filetype plugin indent on
 
@@ -217,20 +221,33 @@ map <Leader>cb :CopyPath<CR>|
 map <Leader>ssqa :wall!<CR>:execute "mksession! ~/" .. v:this_session<CR>:qa!<CR>|
 
 "im ready for vim hard mode, im a grown up now, im a man
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
+function VimHardMode()
 
-inoremap <Up> <Nop>
-inoremap <Down> <Nop>
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
+    if &filetype =~ 'lisp'
+        inoremap <Up> <Up>
+        inoremap <Down> <Down>
+        inoremap <Left> <Left>
+        inoremap <Right> <Right>
+        return
+    endif
 
-vnoremap <Up> <Nop>
-vnoremap <Down> <Nop>
-vnoremap <Left> <Nop>
-vnoremap <Right> <Nop>
+    noremap <Up> <Nop>
+    noremap <Down> <Nop>
+    noremap <Left> <Nop>
+    noremap <Right> <Nop>
+
+    inoremap <Up> <Nop>
+    inoremap <Down> <Nop>
+    inoremap <Left> <Nop>
+    inoremap <Right> <Nop>
+
+    vnoremap <Up> <Nop>
+    vnoremap <Down> <Nop>
+    vnoremap <Left> <Nop>
+    vnoremap <Right> <Nop>
+endfunc
+
+autocmd BufEnter * call VimHardMode()
 
 " comment out multiple lines
 nnoremap <Leader>co :normal!0i
