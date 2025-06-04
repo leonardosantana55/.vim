@@ -12,6 +12,7 @@ let mapleader=" "
 
                         """"""""CONFIG FOR NETWR""""""""
 
+
 function! Explorer2()
     if &filetype != "netrw"
         execute ":Explore"
@@ -31,65 +32,66 @@ let g:netrw_keepdir = 0
 
                        """"""""CONFIG STATUSLINE""""""""
 
+"
+function! MyStatusLine()
 
-" Set the statusline highlight group to StatusLine on Vim startup
-autocmd VimEnter * set statusline=%#StatusLine#
+    " Set the statusline highlight group to StatusLine on Vim startup
+    set statusline=%#StatusLine#
 
-" Add the full file path to the statusline
-autocmd VimEnter * set statusline+=%F
+    set statusline+=\ %{%mode()%}
 
-" Change highlight group to DiffAdd (for the next item)
-autocmd VimEnter * set statusline+=\ %#DiffAdd#
+    " Add the full file path to the statusline
+    set statusline+=\ %F
 
-" Show a '+' if the file is modified
-autocmd VimEnter * set statusline+=%m
+    " Change highlight group to DiffAdd (for the next item)
+    set statusline+=\ %#DiffAdd#
 
-" Switch back to the StatusLine highlight group
-autocmd VimEnter * set statusline+=%#StatusLine#
+    " Show a '+' if the file is modified
+    set statusline+=%m
 
-" Truncate the statusline here if it gets too long
-autocmd VimEnter * set statusline+=%<
+    " Switch back to the StatusLine highlight group
+    set statusline+=%#StatusLine#
 
-" Get the current session file name (without path)
-autocmd VimEnter * let session_name=fnamemodify(v:this_session, ':t')
+    " Truncate the statusline here if it gets too long
+    set statusline+=%<
 
-" Add the session name in parentheses, e.g., (session.vim)
-autocmd VimEnter * set statusline+=\ %{'s('}\%{session_name}\%{')'}
+    function GetSessionName()
+        return fnamemodify(v:this_session, ':t')
+    endfunc
 
-" Split the statusline (left and right alignment)
-autocmd VimEnter * set statusline+=%=
+    " Add the session name in parentheses, e.g., (session.vim)
+    set statusline+=\ %{'s('}\%{%GetSessionName()%}\%{')'}
 
-" Show the current buffer number
-autocmd VimEnter * set statusline+=%{'buf:('}\%n\%{')'}
+    " Split the statusline (left and right alignment)
+    set statusline+=%=
 
-" Show the percentage through the file
-autocmd VimEnter * set statusline+=\ %p%%
+    " Show the current buffer number
+    set statusline+=%{'buf:('}\%n\%{')'}
 
-" its better when code is less than 80 columns wide
-function AlertColumn()
-    if col('.')>=70&&col('.')<=78
-        return '%#WildMenu#'
-    elseif col('.')>78
-        return '%#DiffDelete#'
-    else
-        return '%#StatusLine#'
+    " Show the percentage through the file
+    set statusline+=\ %p%%
+
+    " its better when code is less than 80 columns wide
+    function AlertColumn()
+        if col('.')>=70&&col('.')<=78
+            return '%#WildMenu#'
+        elseif col('.')>78
+            return '%#DiffDelete#'
+        else
+            return '%#StatusLine#'
+    endfunc
+
+    "lines counter
+    set statusline+=\ %l\:
+
+    "alert column
+    set statusline+=%{%AlertColumn()%}
+
+    "column counter
+    set statusline+=\%c
 endfunc
 
-"lines counter
-autocmd Vimenter * set statusline+=\ %l\:
-
-"alert column
-autocmd VimEnter * set statusline+=%{%AlertColumn()%}
-
-"column counter
-autocmd Vimenter * set statusline+=\%c
-
-"dont know what this does
-autocmd Vimenter * set statusline+=%*
-
-" Add a trailing space for aesthetics
-" autocmd VimEnter * set statusline+=\
-
+autocmd VimEnter * call MyStatusLine()
 
             """"""""VARIOUS OPTIONS FOR THE TEXT EDITOR""""""""
 
@@ -128,17 +130,6 @@ set formatoptions+=t
 set formatoptions+=c
 set formatoptions+=r
 set textwidth=0
-" set colorcolumn=80
-" But set it to 100 chars when editing Kotlin.
-" autocmd filetype kotlin setlocal colorcolumn=100
-" Only show the colorcolumn in the current window.
-" autocmd WinLeave * set colorcolumn=0
-" autocmd WinEnter * set colorcolumn=80
-"
-" python
-autocmd FileType python set autoindent
-autocmd FileType python set smartindent
-filetype plugin indent on
 
 set tabstop=4
 set softtabstop=-1
@@ -148,6 +139,17 @@ set incsearch
 set hlsearch
 set backspace=indent,eol,start
 set belloff=all                        "stops annoying bell 
+
+" python
+autocmd FileType python set autoindent
+autocmd FileType python set smartindent
+
+"lisp
+autocmd FileType lisp set tabstop=2
+autocmd FileType lisp set shiftwidth=2
+
+filetype plugin indent on
+
 " set cursorline
 if !exists("g:syntax_on")
     syntax enable
@@ -306,7 +308,6 @@ tnoremap <esc><esc> <C-\><C-n>
            """"""""QUOTES BRACKETS AND PARENTHESIS AUTO MATCH""""""""
 
 function! InsertMatchPair(char, match)
-
 " checks if cursor has chars in front of it and adds a maching pair of some
 " has a side effect that affects commenting many lines at once with visual block + <S-i>
 " is overcome by <Leader>" or <Leader>#.
@@ -368,21 +369,6 @@ vnoremap <Leader>/ <esc>a*/<esc>`<i/*
 
 
             """"""""COMMENT SNIPPETS STUFF FOR C PROGRAMMING"""""""
-" this should became a snippet instead
-
-" function! CommentFunction()
-"     let current_line = line(".")
-"     call append(current_line,   "/******************************************************************************")
-"     call append(current_line+1, "*Name:")
-"     call append(current_line+2, "*Description:")
-"     call append(current_line+3, "*")
-"     call append(current_line+4, "*")
-"     call append(current_line+5, "*Parameters:")
-"     call append(current_line+6, "*")
-"     call append(current_line+7, "*")
-"     call append(current_line+8, "*Returns:")
-"     call append(current_line+9, "******************************************************************************/")
-" endfunc
 
 function! CommentFunction()
 
@@ -396,7 +382,6 @@ function! CommentFunction()
 endfunc
 
 function! CommentVariable()
-
 " use this function to start comments always on the same ideal_comment_col or 12
 " spaces away from last char
 
@@ -423,22 +408,6 @@ map <Leader>cc :call CommentVariable()<CR>
 
                    """"""""""PYTHON LLM INTERFACE""""""""""
 
-" function Gemini(prompt, context=0)
-" 
-"     if a:context == 0
-"         let g:python_gemini_context = a:context
-"     else
-"         let g:python_gemini_context = expand('%:p:h')
-"     endif
-" 
-"     let g:python_gemini_prompt = a:prompt
-" 
-"     py3f ~/.vim/scripts/test.py
-"  "   call popup_create(python_return, {})
-" endfunc
-
-
-" function LlmTip() to be continued..."
 
 function LlmTip(prompt='null')
 
@@ -461,6 +430,8 @@ if has("win32")
 else
     autocmd VimEnter * execute ':source ~/.vim/vimrc'
 endif
+
+autocmd FileType list execute ':source ~/.vim/vimrc_lisp'
 
 " TIPS: 
 " To format a json file run the command :%!python -m json.tool"
