@@ -35,10 +35,10 @@ hi! link vimSep Normal
 hi! link vimParenSep Normal
 hi! link vimCommentString Comment
 hi! link markdownUrl String
-hi Normal guifg=#bcbcbc guibg=NONE gui=NONE cterm=NONE ctermbg=NONE
-hi Statusline guifg=#1c1c1c guibg=#9e9e9e gui=NONE cterm=NONE
+hi Normal guifg=#bcbcbc guibg=#1c1c1c gui=NONE cterm=NONE ctermbg=NONE
+hi Statusline guifg=#bcbcbc guibg=#262626 gui=NONE cterm=NONE
 hi StatuslineNC guifg=#1c1c1c guibg=#767676 gui=NONE cterm=NONE
-hi VertSplit guifg=#767676 guibg=#767676 gui=NONE cterm=NONE
+hi VertSplit guifg=#bcbcbc guibg=#1c1c1c gui=NONE cterm=NONE
 hi TabLine guifg=#1c1c1c guibg=#767676 gui=NONE cterm=NONE
 hi TabLineFill guifg=#1c1c1c guibg=#767676 gui=NONE cterm=NONE
 hi TabLineSel guifg=#1c1c1c guibg=#9e9e9e gui=bold cterm=bold
@@ -132,8 +132,8 @@ if s:t_Co >= 256
   hi! link vimCommentString Comment
   hi! link markdownUrl String
   hi Normal ctermfg=250 ctermbg=234 cterm=NONE
-  hi Statusline ctermfg=250 ctermbg=235 cterm=NONE
-  hi StatuslineNC ctermfg=234 ctermbg=243 cterm=NONE
+  hi Statusline ctermfg=250 ctermbg=232 cterm=NONE
+  hi StatuslineNC ctermfg=243 ctermbg=235 cterm=NONE
 "   hi VertSplit ctermfg=243 ctermbg=243 cterm=NONE
   hi TabLine ctermfg=234 ctermbg=243 cterm=NONE
 "   hi TabLineFill ctermfg=234 ctermbg=243 cterm=NONE

@@ -32,47 +32,54 @@ let g:netrw_keepdir = 0
 
                        """"""""CONFIG STATUSLINE""""""""
 
-"
-function! MyStatusLine()
+function! MyStatusLine(isactive)
 
     " Set the statusline highlight group to StatusLine on Vim startup
-    set statusline=%#StatusLine#
+    if a:isactive
+        setlocal statusline=%#StatusLine#
+    else
+        setlocal statusline=%#StatusLineNC#
+    endif
 
-    set statusline+=\ %{%mode()%}
+    setlocal statusline+=\ %{%mode()%}
 
     " Add the full file path to the statusline
-    set statusline+=\ %F
+    setlocal statusline+=\ %F
 
     " Change highlight group to DiffAdd (for the next item)
-    set statusline+=\ %#DiffAdd#
+    setlocal statusline+=\ %#DiffAdd#
 
     " Show a '+' if the file is modified
-    set statusline+=%m
+    setlocal statusline+=%m
 
     " Switch back to the StatusLine highlight group
-    set statusline+=%#StatusLine#
+    if a:isactive
+        setlocal statusline+=%#StatusLine#
+    else
+        setlocal statusline+=%#StatusLineNC#
+    endif
 
     " Truncate the statusline here if it gets too long
-    set statusline+=%<
+    setlocal statusline+=%<
 
-    function GetSessionName()
+    function! GetSessionName()
         return fnamemodify(v:this_session, ':t')
     endfunc
 
     " Add the session name in parentheses, e.g., (session.vim)
-    set statusline+=\ %{'s('}\%{%GetSessionName()%}\%{')'}
+    setlocal statusline+=\ %{'s('}\%{%GetSessionName()%}\%{')'}
 
     " Split the statusline (left and right alignment)
-    set statusline+=%=
+    setlocal statusline+=%=
 
     " Show the current buffer number
-    set statusline+=%{'buf:('}\%n\%{')'}
+    setlocal statusline+=%{'buf:('}\%n\%{')'}
 
     " Show the percentage through the file
-    set statusline+=\ %p%%
+    setlocal statusline+=\ %p%%
 
     " its better when code is less than 80 columns wide
-    function AlertColumn()
+    function! AlertColumn()
         if col('.')>=70&&col('.')<=78
             return '%#WildMenu#'
         elseif col('.')>78
@@ -82,16 +89,22 @@ function! MyStatusLine()
     endfunc
 
     "lines counter
-    set statusline+=\ %l\:
+    setlocal statusline+=\ %l\:
 
     "alert column
-    set statusline+=%{%AlertColumn()%}
+    if a:isactive
+        setlocal statusline+=%{%AlertColumn()%}
+    endif
 
-    "column counter
-    set statusline+=\%c
+  "column counter
+    setlocal statusline+=\%c
 endfunc
 
-autocmd VimEnter * call MyStatusLine()
+augroup statusline
+    autocmd!
+    autocmd VimEnter,BufEnter * call MyStatusLine(1)
+    autocmd VimEnter,BufLeave * call MyStatusLine(0)
+augroup end
 
             """"""""VARIOUS OPTIONS FOR THE TEXT EDITOR""""""""
 
@@ -150,7 +163,15 @@ autocmd BufEnter *.lisp :setlocal shiftwidth=2
 
 autocmd BufLeave *.lisp  :setlocal tabstop=4
 autocmd BufLeave *.lisp  :setlocal tabstop=4
+autocmd BufEnter *.lisp inoremap <C-d> <esc>:emenu Slimv.Evaluation.Eval-Defun<CR>
+autocmd BufEnter *.lisp stopinsert
 
+augroup REPLMappings
+    autocmd!
+    autocmd BufEnter *REPL* inoremap <buffer> <C-w> <esc><C-w>w
+    autocmd BufEnter *REPL :startinsert!
+    
+augroup END
 
 filetype plugin indent on
 
@@ -160,16 +181,17 @@ if !exists("g:syntax_on")
 endif 
 
 " make cursor blink
-if &term =~ 'xterm' || &term == 'win32'
-    " Use DECSCUSR escape sequences
-    let &t_SI = "\e[5 q"    " blink bar
-    let &t_SR = "\e[3 q"    " blink underline
-    let &t_EI = "\e[1 q"    " blink block
-    let &t_ti ..= "\e[1 q"  " blink block
-    let &t_te ..= "\e[0 q"  " default (depends on terminal, normally blink
-                " block)
-endif
-
+" if &term =~ 'xterm' || &term == 'win32'
+"     " Use DECSCUSR escape sequences
+"     let &t_SI = "\e[5 q"    " blink bar
+"     let &t_SR = "\e[3 q"    " blink underline
+"     let &t_EI = "\e[1 q"    " blink block
+"     let &t_ti ..= "\e[1 q"  " blink block
+"     let &t_te ..= "\e[0 q"  " default (depends on terminal, normally blink
+"                 " block)
+" endif
+let &t_SI = "\e[5 q"
+let &t_EI = "\e[1 q"
 
         """"""""MOSTLY MAPPINGS FOR THE NORMAL MODE TEXT EDITOR""""""""
 
@@ -218,7 +240,7 @@ command! CopyPath let @+ = expand('%:p:h')
 map <Leader>cb :CopyPath<CR>|
 
 " saves session and closes all
-map <Leader>ssqa :wall!<CR>:execute "mksession! ~/" .. v:this_session<CR>:qa!<CR>|
+map <Leader>ssqa :wall!<CR>:execute "mksession! " .. v:this_session<CR>:qa!<CR>|
 
 "im ready for vim hard mode, im a grown up now, im a man
 function VimHardMode()
@@ -365,25 +387,48 @@ function! InsertMatchPair(char, match)
     execute ':start'
 endfunc
 
-inoremap " <esc>:call InsertMatchPair('"', '""')<CR>
-inoremap ' <esc>:call InsertMatchPair("'", "''")<CR>
-inoremap ( <esc>:call InsertMatchPair('(', '()')<CR>
-inoremap [ <esc>:call InsertMatchPair('[', '[]')<CR>
-inoremap { <esc>:call InsertMatchPair('{', '{}')<CR>
+function EnableMatchPair()
 
-inoremap ) <esc>:call InsertMatchPair(')', ')')<CR>
-inoremap ] <esc>:call InsertMatchPair(']', ']')<CR>
-inoremap } <esc>:call InsertMatchPair('}', '}')<CR>
+    if &filetype =~ "lisp"
+        silent! iunmap "
+        silent! iunmap '
+        silent! iunmap (
+        silent! iunmap [
+        silent! iunmap {
 
-inoremap {<cr> {<cr>}<left><cr><up><tab>| " this mapping only works with smart indent and auto indent surround.
+        silent! iunmap )
+        silent! iunmap ]
 
-vnoremap <Leader>" <esc>a"<esc>`<i"
-vnoremap <Leader>' <esc>a'<esc>`<i'
-vnoremap <Leader>( <esc>a)<esc>`<i(
-vnoremap <Leader>[ <esc>a]<esc>`<i[
-vnoremap <Leader>{ <esc>a}<esc>`<i{
-vnoremap <Leader>/ <esc>a*/<esc>`<i/*
+        vnoremap <Leader>" <esc>a"<esc>`<i"
+        vnoremap <Leader>( <esc>a)<esc>`<i(
 
+        return
+    endif
+
+    inoremap " <esc>:call InsertMatchPair('"', '""')<CR>
+    inoremap ' <esc>:call InsertMatchPair("'", "''")<CR>
+    inoremap ( <esc>:call InsertMatchPair('(', '()')<CR>
+    inoremap [ <esc>:call InsertMatchPair('[', '[]')<CR>
+    inoremap { <esc>:call InsertMatchPair('{', '{}')<CR>
+
+    inoremap ) <esc>:call InsertMatchPair(')', ')')<CR>
+    inoremap ] <esc>:call InsertMatchPair(']', ']')<CR>
+    inoremap } <esc>:call InsertMatchPair('}', '}')<CR>
+
+    if &filetype =~ 'c'
+        inoremap {<cr> {<cr>}<left><cr><up><tab>| " this mapping only works with smart indent and auto indent surround.
+    endif
+
+    vnoremap <Leader>" <esc>a"<esc>`<i"
+    vnoremap <Leader>' <esc>a'<esc>`<i'
+    vnoremap <Leader>( <esc>a)<esc>`<i(
+    vnoremap <Leader>[ <esc>a]<esc>`<i[
+    vnoremap <Leader>{ <esc>a}<esc>`<i{
+    vnoremap <Leader>/ <esc>a*/<esc>`<i/*
+
+endfunc
+
+autocmd BufEnter * call EnableMatchPair()
 
             """"""""COMMENT SNIPPETS STUFF FOR C PROGRAMMING"""""""
 
@@ -448,7 +493,6 @@ else
     autocmd VimEnter * execute ':source ~/.vim/vimrc'
 endif
 
-autocmd FileType list execute ':source ~/.vim/vimrc_lisp'
 
 " TIPS: 
 " To format a json file run the command :%!python -m json.tool"
