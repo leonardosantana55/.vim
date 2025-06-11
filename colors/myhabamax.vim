@@ -37,7 +37,7 @@ hi! link vimCommentString Comment
 hi! link markdownUrl String
 hi Normal guifg=#bcbcbc guibg=#1c1c1c gui=NONE cterm=NONE ctermbg=NONE
 hi Statusline guifg=#bcbcbc guibg=#262626 gui=NONE cterm=NONE
-hi StatuslineNC guifg=#1c1c1c guibg=#767676 gui=NONE cterm=NONE
+hi StatuslineNC guifg=#767676 guibg=#262626 gui=NONE cterm=NONE
 hi VertSplit guifg=#bcbcbc guibg=#1c1c1c gui=NONE cterm=NONE
 hi TabLine guifg=#1c1c1c guibg=#767676 gui=NONE cterm=NONE
 hi TabLineFill guifg=#1c1c1c guibg=#767676 gui=NONE cterm=NONE
