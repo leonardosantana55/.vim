@@ -41,7 +41,9 @@ function! MyStatusLine(isactive)
         setlocal statusline=%#StatusLineNC#
     endif
 
-    setlocal statusline+=\ %{%mode()%}
+    if a:isactive
+        setlocal statusline+=\ %{%mode()%}
+    endif
 
     " Add the full file path to the statusline
     setlocal statusline+=\ %F
@@ -62,12 +64,14 @@ function! MyStatusLine(isactive)
     " Truncate the statusline here if it gets too long
     setlocal statusline+=%<
 
-    function! GetSessionName()
-        return fnamemodify(v:this_session, ':t')
-    endfunc
+    if a:isactive
+        function! GetSessionName()
+            return fnamemodify(v:this_session, ':t')
+        endfunc
 
-    " Add the session name in parentheses, e.g., (session.vim)
-    setlocal statusline+=\ %{'s('}\%{%GetSessionName()%}\%{')'}
+        " Add the session name in parentheses, e.g., (session.vim)
+        setlocal statusline+=\ %{'s('}\%{%GetSessionName()%}\%{')'}
+    endif
 
     " Split the statusline (left and right alignment)
     setlocal statusline+=%=
