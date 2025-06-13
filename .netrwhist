@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =3
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/home/leo/.vim/colors'
+let g:netrw_dirhist_4='/home/leo/.vim'
 let g:netrw_dirhist_3='/home/leo/myprograms'
 let g:netrw_dirhist_2='/home/leo/myprograms/pclisp'
 let g:netrw_dirhist_1='/home/leo/myprograms'
@@ -8,5 +10,3 @@ let g:netrw_dirhist_9='/home/leo/myprograms'
 let g:netrw_dirhist_8='/home/leo/myprograms/pclisp'
 let g:netrw_dirhist_7='/home/leo/myprograms'
 let g:netrw_dirhist_6='/home/leo'
-let g:netrw_dirhist_5='/home/leo/myprograms/pclisp'
-let g:netrw_dirhist_4='/home/leo/myprograms'

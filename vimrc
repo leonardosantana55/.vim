@@ -108,7 +108,7 @@ augroup statusline
     autocmd!
     autocmd VimEnter,BufEnter * call MyStatusLine(1)
 " acho que ta aqui o bug"
-    autocmd VimEnter,BufLeave * call MyStatusLine(0)
+    autocmd BufLeave * call MyStatusLine(0)
 augroup end
 
 augroup win_background_color
