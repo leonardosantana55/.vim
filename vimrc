@@ -107,7 +107,14 @@ endfunc
 augroup statusline
     autocmd!
     autocmd VimEnter,BufEnter * call MyStatusLine(1)
+" acho que ta aqui o bug"
     autocmd VimEnter,BufLeave * call MyStatusLine(0)
+augroup end
+
+augroup win_background_color
+    autocmd!
+    autocmd VimEnter,BufEnter * set wincolor=WinColor
+    autocmd VimEnter,BufLeave * set wincolor=Normal
 augroup end
 
             """"""""VARIOUS OPTIONS FOR THE TEXT EDITOR""""""""
@@ -219,7 +226,8 @@ endif
 map <Leader>er :w ~/.vim/snippets/
 map <Leader>re :cd ~/.vim/snippets<CR>:read 
 
-noremap - $
+nnoremap - $
+vnoremap - $h
 
 map gg gg0
 map G G$

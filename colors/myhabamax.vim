@@ -132,6 +132,7 @@ if s:t_Co >= 256
   hi! link vimCommentString Comment
   hi! link markdownUrl String
   hi Normal ctermfg=250 ctermbg=234 cterm=NONE
+  hi WinColor ctermfg=250 ctermbg=233 cterm=NONE
   hi Statusline ctermfg=250 ctermbg=232 cterm=NONE
   hi StatuslineNC ctermfg=243 ctermbg=235 cterm=NONE
 "   hi VertSplit ctermfg=243 ctermbg=243 cterm=NONE
