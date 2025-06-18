@@ -117,8 +117,10 @@ augroup win_background_color
     autocmd BufLeave * set wincolor=Normal
 augroup end
 
+
             """"""""VARIOUS OPTIONS FOR THE TEXT EDITOR""""""""
 
+set foldcolumn=1
 set sessionoptions+=unix,slash
 set autochdir                          " new terminal opens in current files dir 
 set! autoindent
@@ -213,6 +215,7 @@ endif
 " endif
 let &t_SI = "\e[5 q"
 let &t_EI = "\e[1 q"
+
 
         """"""""MOSTLY MAPPINGS FOR THE NORMAL MODE TEXT EDITOR""""""""
 
@@ -452,6 +455,7 @@ endfunc
 
 autocmd BufEnter * call EnableMatchPair()
 
+
             """"""""COMMENT SNIPPETS STUFF FOR C PROGRAMMING"""""""
 
 function! CommentFunction()
@@ -505,6 +509,8 @@ function LlmTip(prompt='null')
     echo python_call_returns
 " TODO: put it on a popup window and prevent it from giving the same tip twice
 endfunc
+
+
 
 colorscheme myhabamax
 
