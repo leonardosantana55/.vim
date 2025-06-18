@@ -114,7 +114,7 @@ augroup end
 augroup win_background_color
     autocmd!
     autocmd VimEnter,BufEnter * set wincolor=WinColor
-    autocmd VimEnter,BufLeave * set wincolor=Normal
+    autocmd BufLeave * set wincolor=Normal
 augroup end
 
             """"""""VARIOUS OPTIONS FOR THE TEXT EDITOR""""""""
@@ -164,24 +164,34 @@ set hlsearch
 set backspace=indent,eol,start
 set belloff=all                        "stops annoying bell 
 
+set ttimeout
+set ttimeoutlen=10
+
 " python
 autocmd FileType python set autoindent
 autocmd FileType python set smartindent
 
 "lisp
-autocmd BufEnter *.lisp :setlocal tabstop=2
-autocmd BufEnter *.lisp :setlocal shiftwidth=2
+augroup LispMappings
+    autocmd!
+    autocmd BufEnter *.lisp :setlocal tabstop=2
+    autocmd BufEnter *.lisp :setlocal shiftwidth=2
+    autocmd BufLeave *.lisp :setlocal tabstop=4
+    autocmd BufLeave *.lisp :setlocal shiftwidth=4
 
-autocmd BufLeave *.lisp  :setlocal tabstop=4
-autocmd BufLeave *.lisp  :setlocal tabstop=4
-autocmd BufEnter *.lisp inoremap <C-d> <esc>:emenu Slimv.Evaluation.Eval-Defun<CR>
-autocmd BufEnter *.lisp stopinsert
+    autocmd BufEnter *.lisp inoremap <C-d> <esc>:emenu Slimv.Evaluation.Eval-Defun<CR>
+
+    " fixes a strange bug
+    autocmd BufEnter *.lisp stopinsert
+
+    autocmd VimEnter * let g:slimv_repl_split=4
+
+augroup END
 
 augroup REPLMappings
     autocmd!
     autocmd BufEnter *REPL* inoremap <buffer> <C-w> <esc><C-w>w
     autocmd BufEnter *REPL :startinsert!
-    
 augroup END
 
 filetype plugin indent on

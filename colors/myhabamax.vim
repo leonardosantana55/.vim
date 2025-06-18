@@ -134,7 +134,7 @@ if s:t_Co >= 256
   hi Normal ctermfg=250 ctermbg=233 cterm=NONE
   hi WinColor ctermfg=250 ctermbg=232 cterm=NONE
   hi Statusline ctermfg=250 ctermbg=16 cterm=NONE
-  hi StatuslineNC ctermfg=243 ctermbg=232 cterm=NONE
+  hi StatuslineNC ctermfg=243 ctermbg=233 cterm=NONE
   hi VertSplit ctermfg=235 ctermbg=232 cterm=NONE
   hi TabLine ctermfg=234 ctermbg=243 cterm=NONE
 "   hi TabLineFill ctermfg=234 ctermbg=243 cterm=NONE
